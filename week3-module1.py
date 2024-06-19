@@ -7,7 +7,7 @@ class Softmax(torch.nn.Module):
         
     def __call__(self, tensor: torch.Any):
         self.tensor = tensor
-        denominator = sum([math.exp(i) for i in range(1, len(self.tensor) + 1)])
+        denominator = sum([math.exp(self.tensor[i]) for i in range(len(self.tensor)])
         for _ in range(len(self.tensor)):
             self.tensor[_] = math.exp(self.tensor[_]) / denominator
         return self.tensor
@@ -20,7 +20,7 @@ class Softmaxstable(torch.nn.Module):
     def __call__(self, tensor: torch.Any):
         self.tensor = tensor
         c = max(self.tensor)
-        denominator = sum([math.exp(i - c) for i in range(1, len(self.tensor) + 1)])
+        denominator = sum([math.exp(self.tensor[i] - c) for i in range(len(self.tensor))])
         for _ in range(len(self.tensor)):
             self.tensor[_] = math.exp(self.tensor[_] - c) / denominator
         return self.tensor
